@@ -60,7 +60,7 @@ class Console(cmd.Cmd):
     def do_list(self, args):
         """list\nList all devices"""
         table = []
-        print "%-10s %-10s %-10s %-15s %-10s" % ('Name','Type','State','Server','Console')
+        print("%-10s %-10s %-10s %-15s %-10s" % ('Name','Type','State','Server','Console'))
         for device in self.namespace.devices.values():
             row = []
             row.append("%-10s" % device.name)
@@ -90,43 +90,43 @@ class Console(cmd.Cmd):
         table.sort(con_cmp)             # Sort the table by the console port #
         for line in table:
             for item in line:
-                print item,
-            print
+                print(item, end=' ')
+            print()
 
     def do_suspend(self, args):
         """suspend  {/all | router1 [router2] ...}\nsuspend all or a specific router(s)"""
         if '?' in args or args.strip() == '':
-            print self.do_suspend.__doc__
+            print(self.do_suspend.__doc__)
             return
 
         devices = args.split(' ')
         if '/all' in devices:
             for device in self.namespace.devices.values():
                 try:
-                    for line in device.suspend(): print line.strip()
+                    for line in device.suspend(): print(line.strip())
                 except IndexError:
                     pass
                 except AttributeError:
                     # If this device doesn't support suspend just ignore it
                     pass
-                except DynamipsError, e:
+                except DynamipsError as e:
                     error(e)
             return
 
         for device in devices:
             try:
-                print self.namespace.devices[device].suspend()[0].strip()
+                print(self.namespace.devices[device].suspend()[0].strip())
             except IndexError:
                 pass
             except (KeyError, AttributeError):
                 error('invalid device: ' + device)
-            except DynamipsError, e:
+            except DynamipsError as e:
                 error(e)
 
     def do_start(self, args):
         """start  {/all | router1 [router2] ...}\nstart all or a specific router(s)"""
         if '?' in args or args.strip() == '':
-            print self.do_start.__doc__
+            print(self.do_start.__doc__)
             return
 
         devices = args.split(' ')
@@ -138,13 +138,13 @@ class Console(cmd.Cmd):
                             device.idlepc = self.namespace.useridledb[device.imagename]
                         else:
                             print("Warining: Starting %s with no idle-pc value" % device.name)
-                    for line in device.start(): print line.strip()
+                    for line in device.start(): print(line.strip())
                 except IndexError:
                     pass
                 except AttributeError:
                     # If this device doesn't support start just ignore it
                     pass
-                except DynamipsError, e:
+                except DynamipsError as e:
                     error(e)
             return
 
@@ -156,117 +156,117 @@ class Console(cmd.Cmd):
                         device.idlepc = self.namespace.useridledb[device.imagename]
                     else:
                         print("Warining: Starting %s with no idle-pc value" % device.name)
-                for line in device.start(): print line.strip()
+                for line in device.start(): print(line.strip())
             except IndexError:
                 pass
             except (KeyError, AttributeError):
                 error('invalid device: ' + devname)
-            except DynamipsError, e:
+            except DynamipsError as e:
                 error(e)
 
     def do_stop(self, args):
         """stop  {/all | router1 [router2] ...}\nstop all or a specific router(s)"""
         if '?' in args or args.strip() == '':
-            print self.do_stop.__doc__
+            print(self.do_stop.__doc__)
             return
 
         devices = args.split(' ')
         if '/all' in devices:
             for device in self.namespace.devices.values():
                 try:
-                    for line in device.stop(): print line.strip()
+                    for line in device.stop(): print(line.strip())
                 except IndexError:
                     pass
                 except AttributeError:
                     # If this device doesn't support stop just ignore it
                     pass
-                except DynamipsError, e:
+                except DynamipsError as e:
                     error(e)
             return
 
         for device in devices:
             try:
-                print self.namespace.devices[device].stop()[0].strip()
+                print(self.namespace.devices[device].stop()[0].strip())
             except IndexError:
                 pass
             except (KeyError, AttributeError):
                 error('invalid device: ' + device)
-            except DynamipsError, e:
+            except DynamipsError as e:
                 error(e)
 
     def do_resume(self, args):
         """resume  {/all | router1 [router2] ...}\nresume all or a specific router(s)"""
         if '?' in args or args.strip() == '':
-            print self.do_resume.__doc__
+            print(self.do_resume.__doc__)
             return
 
         devices = args.split(' ')
         if '/all' in devices:
             for device in self.namespace.devices.values():
                 try:
-                    for line in device.resume(): print line.strip()
+                    for line in device.resume(): print(line.strip())
                 except IndexError:
                     pass
                 except AttributeError:
                     # If this device doesn't support resume just ignore it
                     pass
-                except DynamipsError, e:
+                except DynamipsError as e:
                     error(e)
             return
 
         for device in devices:
             try:
-                print self.namespace.devices[device].resume()[0].strip()
+                print(self.namespace.devices[device].resume()[0].strip())
             except IndexError:
                 pass
             except (KeyError, AttributeError):
                 error('invalid device: ' + device)
-            except DynamipsError, e:
+            except DynamipsError as e:
                 error(e)
 
     def do_reload(self, args):
         """reload  {/all | router1 [router2] ...}\nreload all or a specific router(s)"""
         if '?' in args or args.strip() == '':
-            print self.do_reload.__doc__
+            print(self.do_reload.__doc__)
             return
 
         devices = args.split(' ')
         if '/all' in devices:
             for device in self.namespace.devices.values():
                 try:
-                    for line in device.stop(): print line.strip()
-                    for line in device.start(): print line.strip()
+                    for line in device.stop(): print(line.strip())
+                    for line in device.start(): print(line.strip())
                 except IndexError:
                     pass
                 except AttributeError:
                     # If this device doesn't support stop/start just ignore it
                     pass
-                except DynamipsError, e:
+                except DynamipsError as e:
                     error(e)
             return
 
         for device in devices:
             try:
-                print self.namespace.devices[device].stop()[0].strip()
-                print self.namespace.devices[device].start()[0].strip()
+                print(self.namespace.devices[device].stop()[0].strip())
+                print(self.namespace.devices[device].start()[0].strip())
             except IndexError:
                 pass
             except (KeyError, AttributeError):
                 error('invalid device: ' + device)
-            except DynamipsError, e:
+            except DynamipsError as e:
                 error(e)
 
 
     def do_ver(self, args):
         """Print the dynagen version"""
-        print 'dynagen ' + self.namespace.VERSION
-        print 'dynamips version(s):'
+        print('dynagen ' + self.namespace.VERSION)
+        print('dynamips version(s):')
         for d in self.namespace.dynamips.values():
-            print '  %s: %s'  % (d.host, d.version)
+            print('  %s: %s'  % (d.host, d.version))
 
     def do_hist(self, args):
         """Print a list of commands that have been entered"""
-        print self._hist
+        print(self._hist)
 
     def do_exit(self, args):
         """Exits from the console"""
@@ -279,7 +279,7 @@ class Console(cmd.Cmd):
     def do_telnet(self, args):
         """telnet  {/all | router1 [router2] ...}\ntelnet to the console(s) of all or a specific router(s)"""
         if '?' in args or args.strip() == '':
-            print self.do_telnet.__doc__
+            print(self.do_telnet.__doc__)
             return
 
         devices = args.split(' ')
@@ -300,20 +300,20 @@ class Console(cmd.Cmd):
                 if not device.isrouter: continue
                 
                 if device.state != 'running':
-                    print "Skipping %s device: %s" % (device.state, device.name)
+                    print("Skipping %s device: %s" % (device.state, device.name))
                     continue
                 telnet(device.name)
             except IndexError:
                 pass
             except (KeyError, AttributeError):
                 error('invalid device: ' + device.name)
-            except DynamipsError, e:
+            except DynamipsError as e:
                 error(e)
 
     def do_show(self, args):
         """show mac ethernet_switch_name\nshow the mac address table of an ethernet switch"""
         if '?' in args or args.strip() == '':
-            print self.do_show.__doc__
+            print(self.do_show.__doc__)
             return
         params = args.split(' ')
         if params[0].lower() == 'mac':
@@ -323,12 +323,12 @@ class Console(cmd.Cmd):
                     lines = chunks.strip().split('\r\n')
                     for line in lines:
                         if line != '100-OK':
-                            print line[4:]
+                            print(line[4:])
             except IndexError:
                 error('missing device')
             except (KeyError, AttributeError):
                 error('invalid device: ' + params[1])
-            except DynamipsError, e:
+            except DynamipsError as e:
                 error(e)
         else:
             error('invalid show command')
@@ -336,17 +336,17 @@ class Console(cmd.Cmd):
     def do_clear(self, args):
         """clear mac ethernet_switch_name\nclear the mac address table of an ethernet switch"""
         if '?' in args or args.strip() == '':
-            print self.do_clear.__doc__
+            print(self.do_clear.__doc__)
             return
         params = args.split(' ')
         if params[0].lower() == 'mac':
             try:
-                print self.namespace.devices[params[1]].clear_mac()[0].strip()
+                print(self.namespace.devices[params[1]].clear_mac()[0].strip())
             except IndexError:
                 error('missing device')
             except (KeyError, AttributeError):
                 error('invalid device: ' + params[1])
-            except DynamipsError, e:
+            except DynamipsError as e:
                 error(e)
         else:
             error('invalid clear command')
@@ -356,7 +356,7 @@ class Console(cmd.Cmd):
         """save {/all | router1 [router2] ...}\nstores router configs in the network file"""
 
         if '?' in args or args.strip() == '':
-            print self.do_save.__doc__
+            print(self.do_save.__doc__)
             return
         netfile = self.namespace.globalconfig
         if '/all' in args.split(' '):
@@ -378,8 +378,8 @@ class Console(cmd.Cmd):
             except AttributeError:
                 # This device doesn't support export
                 continue
-            except DynamipsError, e:
-                print e
+            except DynamipsError as e:
+                print(e)
                 # Try saving the other devices though
                 continue
 
@@ -405,14 +405,14 @@ class Console(cmd.Cmd):
                     netfile[serverSection][section]['configuration'] = config
                     # And populate the configurations dictionary
                     self.namespace.configurations[device.name] = config
-                    print 'saved configuration from: ' + device.name
+                    print('saved configuration from: ' + device.name)
         netfile.write()
 
     def do_push(self,args):
         """push {/all | router1 [router2] ...}\npushes router configs from the network file to the router's nvram"""
 
         if '?' in args or args.strip() == '':
-            print self.do_push.__doc__
+            print(self.do_push.__doc__)
             return
 
         configurations = self.namespace.configurations
@@ -437,28 +437,28 @@ class Console(cmd.Cmd):
                 # This device doesn't support importing
                 continue
             except KeyError:
-                print 'No saved configuration found for device: ' + device.name
+                print('No saved configuration found for device: ' + device.name)
                 continue
-            except DynamipsError, e:
-                print e
+            except DynamipsError as e:
+                print(e)
                 # Try saving the other devices though
                 continue
-            print 'Pushed config to: ' + device.name
+            print('Pushed config to: ' + device.name)
 
     def do_export(self, args):
         """export {/all | router1 [router2] ...} \"directory\"\nsaves router configs individual files in \"directory\"\nEnclose the directory in quotes if there are spaces in the filespec."""
 
         if '?' in args or args.strip() == '':
-            print self.do_export.__doc__
+            print(self.do_export.__doc__)
             return
         try:
             items = getItems(args)
-        except DynamipsError, e:
+        except DynamipsError as e:
             error(e)
             return
 
         if len(items) < 2:
-            print self.do_export.__doc__
+            print(self.do_export.__doc__)
             return
          # The last item is the directory (or should be anyway)
         directory = items.pop()
@@ -484,7 +484,7 @@ class Console(cmd.Cmd):
             if subdir != '':
                 debug("changing dir to -> " + subdir)
                 os.chdir(subdir)
-        except OSError,e:
+        except OSError as e:
             error(e)
             os.chdir(netdir)        # Reset the current working directory
             return
@@ -508,20 +508,20 @@ class Console(cmd.Cmd):
             except AttributeError:
                 # This device doesn't support export
                 continue
-            except DynamipsError, e:
-                print e
+            except DynamipsError as e:
+                print(e)
                 # Try saving the other devices though
                 continue
             except TypeError:
                 error("Unknown error exporting config for " + device.name)
                 continue
             # Write out the config to a file
-            print "Exporting %s to \"%s\"" % (device.name, directory + os.sep + device.name + '.cfg')
+            print("Exporting %s to \"%s\"" % (device.name, directory + os.sep + device.name + '.cfg'))
             try:
                 f = open(directory + os.sep + device.name + '.cfg', 'w')
                 f.write(config)
                 f.close()
-            except IOError, e:
+            except IOError as e:
                 error(e)
                 os.chdir(netdir)        # Reset the current working directory
                 return
@@ -533,7 +533,7 @@ class Console(cmd.Cmd):
         """import {/all | router1 [router2] \"directory\"\nimport all or individual configuration files \nEnclose the directory or filename in quotes if there are spaces in the filespec."""
 
         if '?' in args or args.strip() == '':
-            print self.do_import.__doc__
+            print(self.do_import.__doc__)
             return
         items = getItems(args)
          # The last item is the directory (or should be anyway)
@@ -547,21 +547,21 @@ class Console(cmd.Cmd):
             if subdir != '':
                 debug("changing dir to -> " + subdir)
                 os.chdir(subdir)
-        except OSError,e:
+        except OSError as e:
             error(e)
             return
 
         # Walk through all the config files, and attempt to import them
         try:
             contents = os.listdir(directory)
-        except OSError, e:
+        except OSError as e:
             error(e)
             return
         for file in contents:
             if file[-4:].lower() == '.cfg':
                 device = file[:-4]
                 if '/all' in items or device in items:
-                    print "Importing %s from \"%s\"" % (device, file)
+                    print("Importing %s from \"%s\"" % (device, file))
                     try:
                         f = open(directory + os.sep + file, 'r')
                         config = f.read()
@@ -570,14 +570,14 @@ class Console(cmd.Cmd):
                         # Encodestring puts in a bunch of newlines. Split them out then join them back together
                         encoded = ''.join(base64.encodestring(config).split())
                         self.namespace.devices[device].config_b64 = encoded
-                    except IOError, e:
+                    except IOError as e:
                         error(e)
                         os.chdir(netdir)        # Reset the current working directory
                         return
                     except KeyError:
                         error("Ignoring unknown device: " + device)
                         # Don't return, continue trying to import the other devices
-                    except DynamipsError, e:
+                    except DynamipsError as e:
                         error(e)
                         # Don't return, continue trying to import the other devices
 
@@ -594,7 +594,7 @@ Examples:
         filters = ['freq_drop', 'none']     # The known list of filters
 
         if '?' in args or args.strip() == '':
-            print self.do_filter.__doc__
+            print(self.do_filter.__doc__)
             return
 
         try:
@@ -604,31 +604,31 @@ Examples:
                 (device, interface, filterName, direction) = args.split(' ', 3)
                 options = None
         except ValueError:
-            print self.do_filter.__doc__
+            print(self.do_filter.__doc__)
             return
 
         if device not in self.namespace.devices:
-            print 'Unknown device: ' + device
+            print('Unknown device: ' + device)
             return
 
         # Parse out the slot and port
         match_obj = interface_re.search(interface)
         if not match_obj:
-            print 'Error parsing interface descriptor: ' + interface
+            print('Error parsing interface descriptor: ' + interface)
             return
         try:
             (slot, port) = match_obj.group(2,3)
             slot = int(slot)
             port = int(port)
         except ValueError:
-            print 'Error parsing interface descriptor: ' + interface
+            print('Error parsing interface descriptor: ' + interface)
             return
 
         # Apply the filter
         try:
             self.namespace.devices[device].slot[slot].filter(port, filterName, direction, options)
-        except DynamipsError, e:
-            print e
+        except DynamipsError as e:
+            print(e)
             return
 
 
@@ -639,13 +639,13 @@ Examples:
   send bender hypervisor version   -- Send the 'hypervisor version' command to the host named bender"""
 
         if '?' in args or args.strip() == '':
-            print self.do_send.__doc__
+            print(self.do_send.__doc__)
             return
 
         try:
             (host, command) = args.split(' ', 1)
         except ValueError:
-            print 'Error parsing command'
+            print('Error parsing command')
             return
 
         #if host not in self.namespace.dynamips:
@@ -660,11 +660,11 @@ Examples:
 
         try:
             result = server.send_raw(command)
-        except DynamipsError, e:
-            print e
+        except DynamipsError as e:
+            print(e)
             return
 
-        for line in result: print line
+        for line in result: print(line)
 
 
     def do_idlepc(self, args):
@@ -691,20 +691,20 @@ Examples:
                                """
 
         if '?' in args or args.strip() == '':
-            print self.do_idlepc.__doc__
+            print(self.do_idlepc.__doc__)
             return
         try:
             command = args.split()[0]
             command = command.lower()
             params = args.split()[1:]
             if len(params) < 1:
-                print self.do_idlepc.__doc__
+                print(self.do_idlepc.__doc__)
                 return
 
             if command == 'get' or command == 'show':
                 device = params[0]
                 if command == 'get':
-                    print 'Please wait while gathering statistics...'
+                    print('Please wait while gathering statistics...')
                     result = self.namespace.devices[device].idleprop(IDLEPROPGET)
                 elif command == 'show':
                     result = self.namespace.devices[device].idleprop(IDLEPROPSHOW)
@@ -721,37 +721,37 @@ Examples:
                     else:
                         flag = ' '
 
-                    print "%s %2i: %s %s" % (flag, i, value, count)
+                    print("%s %2i: %s %s" % (flag, i, value, count))
                     idles[i] = value
                     i += 1
 
                 # Allow user to choose a value by number
                 if len(idles) == 0:
-                    print 'No idlepc values found\n'
+                    print('No idlepc values found\n')
                 else:
-                    print 'Potentially better idlepc values marked with "*"'
+                    print('Potentially better idlepc values marked with "*"')
                     selection = raw_input("Enter the number of the idlepc value to apply [1-%i] or ENTER for no change: " % len(idles))
                     if selection == "":
-                        print 'No changes made'
+                        print('No changes made')
                         return
 
                     try:
                         selection = int(selection)
                     except ValueError:
-                        print "Invalid selection"
+                        print("Invalid selection")
                         return
                     if selection < 1 or selection > len(idles):
-                        print "Invalid selection"
+                        print("Invalid selection")
                         return
 
                     # Apply the selected idle
                     self.namespace.devices[device].idleprop(IDLEPROPSET, idles[selection])
-                    print "Applied idlepc value %s to %s\n" % (idles[selection], device)
+                    print("Applied idlepc value %s to %s\n" % (idles[selection], device))
 
             elif command == 'set':
                 (device, value) = params
                 self.namespace.devices[device].idleprop(IDLEPROPSET, value)
-                print "Applied idlepc value %s to %s\n" % (value, device)
+                print("Applied idlepc value %s to %s\n" % (value, device))
 
             elif command == 'save':
                 if len(params) == 1:
@@ -760,14 +760,14 @@ Examples:
                 elif len(params) == 2:
                     (device, location) = params
                     if location.lower() not in ['default', 'db']:
-                        print "***Error: unknown keyword %s" % location
+                        print("***Error: unknown keyword %s" % location)
                         return
                 else:
                     raise ValueError
 
                 idlepc = self.namespace.devices[device].idlepc
                 if idlepc == None:
-                    print "****Error: device %s has no idlepc value to save" % device
+                    print("****Error: device %s has no idlepc value to save" % device)
                     return
 
                 netfile = self.namespace.globalconfig
@@ -788,7 +788,7 @@ Examples:
                     elif model == 'c7200':
                         section == '7200'
                     else:
-                        print "***Error: could not determine default section for device " + device
+                        print("***Error: could not determine default section for device " + device)
                         return
 
                 elif location.lower() == 'db':
@@ -801,10 +801,10 @@ Examples:
                     self.namespace.useridledb[self.namespace.devices[device].imagename] = idlepc
                     try:
                         self.namespace.useridledb.write()
-                    except IOError,e:
-                        print '***Error: ' + str(e)
+                    except IOError as e:
+                        print('***Error: ' + str(e))
                         return
-                    print "idlepc value for image \"%s\" written to the database" % self.namespace.devices[device].imagename
+                    print("idlepc value for image \"%s\" written to the database" % self.namespace.devices[device].imagename)
                     return
 
                 else:
@@ -820,19 +820,19 @@ Examples:
 
                 # Perform a sanity check. I'd hate to trash a network file...
                 if section not in netfile[serverSection].sections:
-                    print "***Error: section %s not found in network configuration file for host %s" % (section, host.name)
+                    print("***Error: section %s not found in network configuration file for host %s" % (section, host.name))
                     return
 
                 netfile[serverSection][section]['idlepc'] = idlepc
                 netfile.write()
-                print 'idlepc value saved to section: ' + section
+                print('idlepc value saved to section: ' + section)
 
             elif command == 'showdrift':
                 device = params[0]
-                print 'Current idlemax value: %i' % self.namespace.devices[device].idlemax
-                print 'Current idlesleep value: %i' % self.namespace.devices[device].idlesleep
+                print('Current idlemax value: %i' % self.namespace.devices[device].idlemax)
+                print('Current idlesleep value: %i' % self.namespace.devices[device].idlesleep)
                 result = self.namespace.devices[device].idlepcdrift
-                for line in result: print line[4:]
+                for line in result: print(line[4:])
                 return
 
             elif command in ['idlemax', 'idlesleep']:
@@ -842,20 +842,20 @@ Examples:
                     self.namespace.devices[device].idlemax = value
                 elif command == 'idlesleep':
                     self.namespace.devices[device].idlesleep = value
-                print 'OK'
+                print('OK')
                 return
 
             else:
-                print '***Error: Unknown command ' + command
+                print('***Error: Unknown command ' + command)
                 return
         except ValueError:
-            print '***Error: Incorrect number of paramaters or invalid parameters'
+            print('***Error: Incorrect number of paramaters or invalid parameters')
             return
         except KeyError:
-            print '***Error: Unknown device: ' + device
+            print('***Error: Unknown device: ' + device)
             return
-        except DynamipsError, e:
-            print e
+        except DynamipsError as e:
+            print(e)
             return
 
 
@@ -886,7 +886,7 @@ Examples:
            Despite the claims in the Cmd documentaion, Cmd.postloop() is not a stub.
         """
         cmd.Cmd.postloop(self)   ## Clean up command completion
-        print "Exiting..."
+        print("Exiting...")
 
     def precmd(self, line):
         """ This method is called after the line has been input but before
@@ -909,13 +909,13 @@ Examples:
     def do_py(self, line):
         """py <python statement(s)>\nExecute python statements"""
         if line == '?':
-            print self.do_py.__doc__
+            print(self.do_py.__doc__)
             return
 
         try:
             exec(line) in self._locals, self._globals
-        except Exception, e:
-            print e.__class__, ":", e
+        except Exception as e:
+            print(e.__class__, ":", e)
 
     def default(self, line):
         """Called on an input line when the command prefix is not recognized.
@@ -948,8 +948,8 @@ def getItems(s):
     input = StringIO.StringIO(s)
     try:
         items = csv.reader(input, delimiter=' ').next()
-    except csv.Error, e:
-        raise DynamipsError, e
+    except csv.Error as e:
+        raise DynamipsError(e)
 
     # csv.reader removes the quotes though. So we need to put them back in for items with spaces in them
     """
@@ -963,13 +963,13 @@ def getItems(s):
 
 def error(msg):
     """Print out an error message"""
-    print '*** Error:', str(msg)
+    print('*** Error:', str(msg))
 
 def debug(string):
     """ Print string if debugging is true
     """
     # Debug level 2, console debugs
-    if globaldebug >= 2: print '  DEBUG: ' + str(string)
+    if globaldebug >= 2: print('  DEBUG: ' + str(string))
 
 if __name__ == '__main__':
     #console = Console()
