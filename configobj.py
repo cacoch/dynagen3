@@ -97,11 +97,6 @@ except NameError:
             i += 1
             yield i, item
 
-try:
-    True, False
-except NameError:
-    True, False = 1, 0
-
 
 __version__ = '4.2.0'
 
