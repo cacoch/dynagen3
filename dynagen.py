@@ -466,10 +466,10 @@ def import_config(FILENAME):
             h.close()
             try:
                 config = ConfigObj(FILENAME, configspec=configspec, raise_errors=True)
-            except SyntaxError, e:
-                print "\nError:"
-                print e
-                print e.line, '\n'
+            except SyntaxError as e:
+                print("\nError:")
+                print(e)
+                print(e.line, '\n')
                 raw_input("Press ENTER to continue")
                 handled = True
                 sys.exit(1)
@@ -493,7 +493,7 @@ def import_config(FILENAME):
             section_string = ', '.join(section_list)
             if error == False:
                 error = 'Missing value or section.'
-            print section_string, ' = ', error
+            print(section_string, ' = ', error)
         raw_input("Press ENTER to continue")
         handled = True
         sys.exit(1)
@@ -646,7 +646,7 @@ def import_config(FILENAME):
             elif devtype.lower() == 'ethsw':
                 dev = ETHSW(dynamips[server.name], name=name)
             else:
-                print '\n***Error: unknown device type:', devtype, '\n'
+                print('\n***Error: unknown device type:', devtype, '\n')
                 raw_input("Press ENTER to continue")
                 handled = True
                 sys.exit(1)
@@ -682,7 +682,7 @@ def import_config(FILENAME):
         (router, source, dest) = connection
         try:
             result = connect(router, source, dest)
-        except DynamipsError, e:
+        except DynamipsError as e:
             err = e[0]
             doerror('Connecting %s %s to %s resulted in \n    %s' % (router.name, source, dest, err))
         if result == False:
@@ -704,9 +704,9 @@ def import_config(FILENAME):
             (porttype, vlan) = dest.split(' ')
             try:
                 switch.set_port(int(source), porttype, int(vlan))
-            except DynamipsError, e:
+            except DynamipsError as e:
                 doerror(e)
-            except DynamipsWarning, e:
+            except DynamipsWarning as e:
                 dowarning(e)
 
         elif parameters == 3:
@@ -755,7 +755,7 @@ def import_config(FILENAME):
                     # Bad NIO
                     doerror('Invalid NIO in Ethernet switchport config: %s = %s' % (source, dest))
 
-            except DynamipsError, e:
+            except DynamipsError as e:
                 doerror(e)
 
         else:
@@ -788,10 +788,10 @@ def import_ini(FILENAME):
 
     try:
         config = ConfigObj(inifile, raise_errors=True)
-    except SyntaxError, e:
-        print "\nError:"
-        print e
-        print e.line, '\n'
+    except SyntaxError as e:
+        print("\nError:")
+        print(e)
+        print(e.line, '\n')
         raw_input("Press ENTER to continue")
         handled = True
         sys.exit(1)
@@ -799,7 +799,7 @@ def import_ini(FILENAME):
     try:
         telnetstring = config['telnet']
     except KeyError:
-        raise DynamipsError, "No telnet option found in INI file.\n"
+        raise DynamipsError("No telnet option found in INI file.\n")
 
     try:
         globaludp = int(config['udp'])
@@ -828,10 +828,10 @@ def import_generic_ini(inifile):
 
     try:
         config = ConfigObj(inifile, raise_errors=True)
-    except SyntaxError, e:
-        print "\nError in user idlepc database:"
-        print e
-        print e.line, '\n'
+    except SyntaxError as e:
+        print("\nError in user idlepc database:")
+        print(e)
+        print(e.line, '\n')
         raw_input("Press ENTER to continue")
         handled = True
         sys.exit(1)
@@ -844,13 +844,13 @@ def debug(string):
     """
     global debuglevel
     # Level 3, dynagen debugs.
-    if debuglevel >= 3: print '  DEBUG: ' + str(string)
+    if debuglevel >= 3: print('  DEBUG: ' + str(string))
 
 def doerror(msg):
     global handled
 
     """Print out an error message"""
-    print '\n*** Error:', str(msg)
+    print('\n*** Error:', str(msg))
     handled = True
     doreset()
     raw_input("Press ENTER to continue")
@@ -858,7 +858,7 @@ def doerror(msg):
 
 def dowarning(msg):
     """Print out minor warning messages"""
-    print 'Warning:', str(msg)
+    print('Warning:', str(msg))
 
 def doreset():
     """reset all hypervisors"""
@@ -889,7 +889,7 @@ if __name__ == "__main__":
         FILENAME = args[0]
         if options.debug:
             setdebug(True)
-            print "\nPython version: %s" % sys.version
+            print("\nPython version: %s" % sys.version)
         if options.nosend: nosend(True)
 
         # Check to see if the network file exists and is readable
@@ -902,13 +902,13 @@ if __name__ == "__main__":
         # Import INI file
         try:
             import_ini(INIFILE)
-        except DynamipsError, e:
+        except DynamipsError as e:
             doerror(e)
 
-        print "\nReading configuration file...\n"
+        print("\nReading configuration file...\n")
         try:
             import_config(FILENAME)
-        except DynamipsError, e:
+        except DynamipsError as e:
             # Strip leading error code if present
             e = str(e)
             if e[3] == '-':
@@ -978,7 +978,7 @@ if __name__ == "__main__":
                 if ghosts[ghostinstance]:
                     device.ghost_status = 2
                     device.ghost_file = ghost_file
-        except DynamipsError, e:
+        except DynamipsError as e:
             doerror(e)
 
         # Apply idlepc values, and if necessary start the instances
@@ -996,26 +996,26 @@ if __name__ == "__main__":
                         if device.idlepc == None:
                             dowarning("Starting %s with no idle-pc value" % device.name)
                         device.start()
-                    except DynamipsError, e:
+                    except DynamipsError as e:
                         doerror(e)
 
-        print "\nNetwork successfully started\n"
+        print("\nNetwork successfully started\n")
 
         console = Console()
         try:
             console.cmdloop()
         except KeyboardInterrupt:
-            print "Exiting..."
+            print("Exiting...")
 
         doreset()
     except:
         # Display the unhandled exception, and pause so it can be observed
         if not handled:
-            print """*** Dynagen has crashed ****
+            print("""*** Dynagen has crashed ****
 Please open a bug report against Dynagen at http://www.ipflow.utc.fr/bts/
 Include a description of what you were doing when the error occured, your
 network file, any errors output by dynamips, and the following traceback data:
-            """
+            """)
 
             exctype, value, trace = sys.exc_info()
             #print trace
@@ -1024,11 +1024,11 @@ network file, any errors output by dynamips, and the following traceback data:
             raw_input("Press ENTER to exit")
 
             if debuglevel >=2:
-                print "\nDumping namespace..."
-                print 'Globals:'
-                print trace.tb_frame.f_globals
-                print 'Locals:'
-                print trace.tb_frame.f_locals
+                print("\nDumping namespace...")
+                print('Globals:')
+                print(trace.tb_frame.f_globals)
+                print('Locals:')
+                print(trace.tb_frame.f_locals)
 
             sys.exit(1)
 
