@@ -21,7 +21,8 @@ along with this program; if not, write to the Free Software
 Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 """
 
-import os, cmd, time, re, StringIO, csv, base64
+import os, cmd, time, re, csv, base64
+from io import StringIO
 from dynamips_lib import DynamipsError, DynamipsWarning, IDLEPROPGET, IDLEPROPSHOW, IDLEPROPSET
 from configobj import ConfigObj
 
