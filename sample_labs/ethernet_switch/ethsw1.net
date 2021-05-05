@@ -1,0 +1,27 @@
+# Simple Ethernet Switch lab
+autostart = false
+
+[localhost]
+
+    [[7200]]
+    image = \Program Files\Dynamips\images\c7200-jk9o3s-mz.124-7a.image
+    # On Linux / Unix use forward slashes:
+    #image = /opt/7200-images/c7200-ik9o3s-mz.124-5a.image
+    npe = npe-400
+    ram = 160
+        
+    [[ROUTER R1]]
+    F1/0 = S1 1
+    
+    [[router R2]]
+    F1/0 = S1 2
+    
+    [[router R3]]
+    F1/0 = S1 3
+    
+    [[ethsw S1]]
+    1 = access 1
+    2 = access 20
+    3 = dot1q 1
+    #4 = dot1q 1 NIO_gen_eth:eth0
+    4 = dot1q 1 NIO_gen_eth:\Device\NPF_{B00A38DD-F10B-43B4-99F4-B4A078484487}

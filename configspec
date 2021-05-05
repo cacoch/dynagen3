@@ -1,0 +1,48 @@
+autostart = boolean(default=True)
+model = option('2691', '3725', '3745', '3620', '3640', '3660', '7200', default='7200')
+ghostios = boolean(default=False)
+ghostsize = integer(min=1, default=None)
+idlemax = integer(min=1, default=None)
+idlesleep = integer(min=1, default=None)
+debug = integer(min=0, max=9, default=0)
+
+[__many__]
+port = integer(min=1, max=65535, default=None)
+workingdir = string(default=None)
+console = integer(min=1, max=65535, default=None)
+udp = integer(min=1, max=65535, default=None)
+
+    [[__many__]]
+    model = option('2691', '3725', '3745', '3620', '3640', '3660', '7200', default=None)
+    console = integer(min=1, max=65535, default=None)
+    aux = integer(min=1, max=65535, default=None)
+    image = string(default=None)
+    ram = integer(min=0, default=None)
+    nvram = integer(min=0, default=None)
+    cnfg = string(default=None)
+    confreg = string(default=None)
+    idlepc = string(default=None)
+    exec_area = string(default=None)
+    clock = integer(min=0, default=None)
+    npe = option('npe-100', 'npe-150', 'npe-175', 'npe-200', 'npe-225', 'npe-300', 'npe-400', default=None)
+    midplane = option('std', 'vxr', default=None)
+    disk0 = integer(min=0, default=None)
+    disk1 = integer(min=0, default=None)
+    mmap = boolean(default=None)
+    ghostios = boolean(default=None)
+    ghostsize = integer(min=1, default=None)
+    autostart = boolean(default=None)
+    configuration = string(default=None)
+    idlemax = integer(min=1, default=None)
+    idlesleep = integer(min=1, default=None)
+
+    slot0 = option('PA-C7200-IO-FE', 'Leopard-2FE', 'NM-1FE-TX', 'NM-1E', 'NM-4E', 'NM-16ESW', 'NM-4T', default=None)
+    slot1 = option('PA-FE-TX', 'PA-4E', 'PA-8E', 'PA-4T', 'PA-8T', 'PA-A1', 'PA-POS-OC3', 'NM-1FE-TX', 'NM-1E', 'NM-4E', 'NM-16ESW', 'NM-4T', default=None)
+    slot2 = option('PA-FE-TX', 'PA-4E', 'PA-8E', 'PA-4T', 'PA-8T', 'PA-A1', 'PA-POS-OC3', 'NM-1FE-TX', 'NM-1E', 'NM-4E', 'NM-16ESW', 'NM-4T', default=None)
+    slot3 = option('PA-FE-TX', 'PA-4E', 'PA-8E', 'PA-4T', 'PA-8T', 'PA-A1', 'PA-POS-OC3', 'NM-1FE-TX', 'NM-1E', 'NM-4E', 'NM-16ESW', 'NM-4T', default=None)
+    slot4 = option('PA-FE-TX', 'PA-4E', 'PA-8E', 'PA-4T', 'PA-8T', 'PA-A1', 'PA-POS-OC3', 'NM-1FE-TX', 'NM-1E', 'NM-4E', 'NM-16ESW', 'NM-4T', default=None)
+    slot5 = option('PA-FE-TX', 'PA-4E', 'PA-8E', 'PA-4T', 'PA-8T', 'PA-A1', 'PA-POS-OC3', 'NM-1FE-TX', 'NM-1E', 'NM-4E', 'NM-16ESW', 'NM-4T', default=None)
+    slot6 = option('PA-FE-TX', 'PA-4E', 'PA-8E', 'PA-4T', 'PA-8T', 'PA-A1', 'PA-POS-OC3', 'NM-1FE-TX', 'NM-1E', 'NM-4E', 'NM-16ESW', 'NM-4T', default=None)
+
+
+

@@ -1,0 +1,27 @@
+# A Simple frame relay lab 
+
+autostart = false 
+
+[localhost]
+
+    [[7200]]
+    image = \Program Files\Dynamips\images\c7200-jk9o3s-mz.124-7a.image
+    # On Linux / Unix use forward slashes:
+    #image = /opt/7200-images/c7200-jk9o3s-mz.124-7a.image
+    npe = npe-400
+    ram = 160
+        
+    [[ROUTER R1]]
+    s1/0 = F1 1
+    
+    [[ROUTER R2]]
+    s1/0 = F1 2
+
+    [[ROUTER R3]]
+    s1/0 = F1 3
+    
+    [[FRSW F1]]
+    1:102 = 2:201
+    1:103 = 3:301
+    2:203 = 3:302
+

@@ -1,0 +1,34 @@
+# Working with multiple dynamips servers
+
+# A windows server (the local machine)
+
+[xplt]
+
+    [[7200]]
+    image = \Program Files\Dynamips\images\c7200-ik9o3s-mz.122-15.T17.image
+    ram = 96
+
+    [[ROUTER R1]]
+    # Connect to s1/0 on R2 running on a different server
+    s1/0 = R2 s1/0  
+   
+
+# A linux server
+[bender]
+workingdir = /home/greg/labs/dist1
+
+    [[7200]]
+    image = /opt/7200-images/c7200-ik9o3s-mz.122-15.T17.image         
+    ram = 96
+
+    [[ROUTER R2]]
+
+    
+
+
+    
+
+
+
+
+

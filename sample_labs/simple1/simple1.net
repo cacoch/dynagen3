@@ -1,0 +1,17 @@
+# Simple lab
+
+[localhost]
+
+    [[7200]]
+    image = \Program Files\Dynamips\images\c7200-jk9o3s-mz.124-7a.image
+    # On Linux / Unix use forward slashes:
+    # image = /opt/7200-images/c7200-jk9o3s-mz.124-7a.image
+    npe = npe-400
+    ram = 160
+        
+    [[ROUTER R1]]
+    s1/0 = R2 s1/0
+    
+    [[router R2]]
+    # No need to specify an adapter here, it is taken care of
+    # by the interface specification under Router R1

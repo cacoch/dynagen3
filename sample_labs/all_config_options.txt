@@ -1,0 +1,137 @@
+# Examples of all Dynagen network file options
+
+autostart = true # Should all devices be automatically started? true or false, defaults to true. Can be overridden on a per device basis
+debug = 0	 # Debug output level. Higher numbers produce increasing levels of verbosity. 0 means none (the default). 1 is the same as the -d command line switch
+model = 7200     # Set the default router model for all routers in this lab. Current options are 2691, 3620, 3640, 3660, 3725, 3745, or 7200
+ghostios = false # Enable or disable IOS ghosting globally for this lab. Can be overridden at the device defaults sections, or the device sections. Defaults to False.
+ghostsize = 128  # Manually tweak the amount of virtual ram allocated by the ghost image(s). Use of this option should never be necessary, because the ghost size is now automatically calculated.
+idlemax = 1500   # Advanced manipulation of idlepc. Applies to all devices in this network.
+idlesleep = 30   # Advanced manipulation of idlepc. Applies to all devices in this network.
+
+# Each DYNAMIPS section sepecifies a dynamips server and the devices it hosts
+[bender:7200]   # The hostname or IP address of a Dynamips server, and the control port. If you do not specify the port it defaults to 7200
+port = 7200     # "Old style" method for specifying the control port. Optional, defaults to 7200
+console = 2000  # Base console port. New instances that do not specify a console port will default to this + the intance number. Defaults to 2000
+workingdir = /home/labs/test lab 1  # Set the directory where Dynamips will store all the device files for this network. This is the fully qualified path relative to the system running dynamips.
+udp = 10000     # Set the base UDP port for NIOs
+
+    # The 7200 section specifies defaults for all 7200 routers on this Dynamips server. Everything in this
+    # section is optional, and defaults to whatever the default is in Dynamips
+    [[7200]]
+    image = /opt/7200-images/c7200-ik9o3s-mz.122-15.T17.image   # Full path to 7200 IOS image file. This is the fully qualified path relative to the system running dynamips.
+    ram = 256        # Amount of Virtual RAM to allocate to each router instance.
+    nvram = 128      # Size of NVRAM
+    disk0 = 64       # Set size of PCMCIA ATA disk0
+    disk1 = 64       # Set size of PCMCIA ATA disk1
+    cnfg = None      # Configuration file to import. This is the fully qualified path relative to the system running dynamips.
+    confreg = 0x2102 # Set the configuration register
+    clock = 2        # Clock divisor (should no longer been needed as of dynamips 0.2.5 RC1)
+    npe = npe-200    # NPE type.("npe-100", "npe-150", "npe-175", "npe-200", "npe-225", "npe-300" or "npe-400")
+    midplane = vxr   # Midplane, either "std" or "vxr"
+    mmap = true     # Set to false to use real memory rather than a disk file for router vitural memory. Conserves RAM at the expense of performance. Defaults to True
+    idlepc = 0x60719b98 # Set the Idle PC value
+    exec_area = 64   # Set the exec area size
+    configuration = ... # Base 64 encoded IOS configuration.
+    ghostios = false  # Enable or disable IOS ghosting for all 7200s on this server
+    ghostsize = 128  # Manually tweak the amount of virtual ram allocated by the ghost image(s) for all 7200s on this server. Use of this option should never be necessary, because the ghost size is now automatically calculated.
+    idlemax = 1500   # Advanced manipulation of idlepc. Applies to all 7200s on this server.
+    idlesleep = 30   # Advanced manipulation of idlepc. Applies to all 7200s on this server.
+
+    # The 3620 section specifies defaults for all 3620 routers on this Dynamips server. Just like with the 7200 section,
+    # Everything is optional, and defaults to whatever the default is in Dynamips
+    [[3620]]
+    image = /opt/3620-images/c3620-io3-mz.123-20.image   # Full path to 3600 IOS image file. This is the fully qualified path relative to the system running dynamips.
+    ram = 128        # Amount of Virtual RAM to allocate to each router instance.
+    rom = 4          # Size of ROM
+    nvram = 128      # Size of NVRAM
+    disk0 = 64       # Set size of PCMCIA ATA disk0
+    disk1 = 64       # Set size of PCMCIA ATA disk1
+    iomem = 5        # Percentage of router RAM to allocate for iomem. Only applies to 3600 class routers.
+    cnfg = None      # Configuration file to import. This is the fully qualified path relative to the system running dynamips.
+    confreg = 0x2102 # Set the configuration register
+    clock = 2        # Clock divisor (should no longer be used as of dynamips 0.2.5 RC1)
+    mmap = true      # Set to false to use real memory rather than a disk file for router vitural memory. Conserves RAM at the expense of performance. Defaults to True
+    idlepc = 0x60719b98  # Set the Idle PC value
+    exec_area = 64   # Set the exec area size
+    configruation = .... # Base 64 encoded IOS configuration.
+    ghostios = false  # Enable or disable IOS ghosting for all 3620s on this server
+    ghostsize = 128  # Manually tweak the amount of virtual ram allocated by the ghost image(s) for all 3620s on this server. Use of this option should never be necessary, because the ghost size is now automatically calculated.
+    idlemax = 1500   # Advanced manipulation of idlepc. Applies to all 7200s on this server.
+    idlesleep = 30   # Advanced manipulation of idlepc. Applies to all 7200s on this server.
+
+    [[3640]]
+    # All the same options as in the 3620 section
+
+    [[3660]]
+    # Defaults for 3660s. All the same options as the 3620 and 3640 sections.
+
+    [[2961]]
+    # Same options as the 3600s, except for iomem.
+
+    [[3725]]
+    # same as 2961
+
+    [[3745]]
+    # same as 3725
+
+    # Each ROUTER section defines a router and it's connections. All keywords are optional
+    [[ROUTER R1]]   # Must supply a unique name
+    model = 7200    # 2691, 3620, 3640, 3660, 3725, 3745, or 7200. Defaults to 7200, unless overridden at the top level
+    console = 2000      # Console port. Defaults to the server's base console port (specified in the server section) + instance number
+    aux = 3000      # Aux port, defaults to none
+    # All options from the 7200/36xx sections are options here as well, including "autostart"
+
+    # Manual PA  or network module specification. This is optional, and if not done dynagen will make sane decisions based on the interface specifications.
+    slot0 = PA-C7200-IO-FE  # Ethernet in slot 0. Use "Leopard-2FE" for slot 0 on 3660s. 2961/3725/3745 already have an integrated 2FE in slot 0 automatically. slot0 assignments on these routers are ignored.
+    slot1 = PA-FE-TX        # Ethernet in slot 1
+    slot2 = NM-1E           # 3600 NM-1E in slot 2
+    slot3 = PA-4T           # PA-4T+ in slot 2
+    slot6 = PA-4E	    # PA-4E in slot 6
+    #slotx = PA-POS-OC3	    # PA-POS-OC3 in slot x
+
+    # Interface specification. Can take the following forms:
+    f1/0 = R2 f1/0      # Connect to f1/0 on device R2
+    f2/0 = LAN 1        # Connect to bridged LAN 1
+    s3/0 = R2 s3/0      # Connect to s3/0 on device R2
+    s3/1 = F1 1         # Connect to port 1 on device "F1" (a frame relay switch)
+    s3/2 = F2 1
+    a4/0 = A1 1         # Connect to port 1 on device "A1" (an ATM switch)
+    f5/0 = NIO_linux_eth:eth0   # manually specify an NIO
+
+    [[ROUTER R2]]
+    model = 3640
+    # Interface f1/0 will automatically be created because the interface was referenced in R1's config
+    f2/0 = LAN 1        # Connect to bridged LAN 1
+    s3/0 = F1 2
+    s3/1 = F2 2
+    s3/2 = F1 3
+    a5/0 = A1 2
+
+    [[router R3]]       # Case is not significant
+    # Examples of other manually specified NIOs
+    f1/0 = NIO_gen_eth:\Device\NPF_{B00A38DD-F10B-43B4-99F4-B4A078484487}
+    f2/0 = NIO_udp:10000:127.0.0.1:10001
+    f3/0 = NIO_tap:tap0
+    f4/0 = NIO_unix:/tmp/local:/tmp/remote
+    f5/0 = NIO_vde:foo:bar
+
+    # Each FRSW section defines a frame relay switch. All keywords are optional
+    [[FRSW F1]]         # Must supply a unique name
+    1:102 = 2:201      # Tell the FRSW to switch from port 1, DLCI 102 to port 2, DLCI 201.
+    1:103 = 3:301      # and from port 1, DLCI 103 to port 3, DLCI 301
+
+    [[FRSW F2]]
+    1:102 = 2:201
+
+    # Define an ATM Switch
+    [[ATMSW A1]]
+    1:10 = 2:20         # Port 1, vpi 10 to port 2, vpi 20
+    #1:10:200 = 2:20:100 # Port 1, vpi 10, vci 200 to port 2, vpi 20, vci 100
+
+    # Define an Ethernet Switch
+    [[ETHSW S1]]
+    1 = access 1        # Port 1 is an access port in vlan 1
+    2 = access 20       # Port 2 is an access port in vlan 20
+    3 = dot1q 1         # Port 3 is a trunk port (dot1q encapsulation) with naitive vlan 1
+    4 = dot1q 1 NIO_gen_eth:eth0   # Port 4 is trunk port (naitive vlan 1) that is connected to the host eth0 via the gen_eth NIO
+    #4 = dot1q 1 NIO_gen_eth:\Device\NPF_{B00A38DD-F10B-43B4-99F4-B4A078484487} # Same as above, Windows example
