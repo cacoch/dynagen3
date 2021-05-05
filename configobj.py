@@ -351,7 +351,7 @@ class Section(dict):
         ``main.stringify`` is set.
         """
         if not isinstance(key, StringTypes):
-            raise ValueError, 'The key "%s" is not a string.' % key
+            raise ValueError('The key "%s" is not a string.' % key)
         # add the comment
         if not self.comments.has_key(key):
             self.comments[key] = []
@@ -388,10 +388,10 @@ class Section(dict):
                 elif isinstance(value, (list, tuple)):
                     for entry in value:
                         if not isinstance(entry, StringTypes):
-                            raise TypeError, (
+                            raise TypeError(
                                 'Value is not a string "%s".' % entry)
                 else:
-                    raise TypeError, 'Value is not a string "%s".' % value
+                    raise TypeError('Value is not a string "%s".' % value)
             dict.__setitem__(self, key, value)
 
     def __delitem__(self, key):
@@ -438,7 +438,7 @@ class Section(dict):
         """Pops the first (key,val)"""
         sequence = (self.scalars + self.sections)
         if not sequence:
-            raise KeyError, ": 'popitem(): dictionary is empty'"
+            raise KeyError(": 'popitem(): dictionary is empty'")
         key = sequence[0]
         val =  self[key]
         del self[key]
@@ -565,7 +565,7 @@ class Section(dict):
         elif oldkey in self.sections:
             the_list = self.sections
         else:
-            raise KeyError, 'Key "%s" not found.' % oldkey
+            raise KeyError('Key "%s" not found.' % oldkey)
         pos = the_list.index(oldkey)
         #
         val = self[oldkey]
@@ -968,7 +968,7 @@ class ConfigObj(Section):
         defaults = OPTION_DEFAULTS.copy()
         for entry in options.keys():
             if entry not in defaults.keys():
-                raise TypeError, 'Unrecognised option "%s".' % entry
+                raise TypeError('Unrecognised option "%s".' % entry)
         # TODO: check the values too.
         #
         # Add any explicit options to the defaults
@@ -998,7 +998,7 @@ class ConfigObj(Section):
                 infile = open(infile).read() or []
             elif self.file_error:
                 # raise an error if the file doesn't exist
-                raise IOError, 'Config file not found: "%s".' % self.filename
+                raise IOError('Config file not found: "%s".' % self.filename)
             else:
                 # file doesn't already exist
                 if self.create_empty:
@@ -1030,7 +1030,7 @@ class ConfigObj(Section):
             # needs splitting into lines - but needs doing *after* decoding
             # in case it's not an 8 bit encoding
         else:
-            raise TypeError, ('infile must be a filename,'
+            raise TypeError('infile must be a filename,'
                 ' file like object, or list of lines.')
         #
         if infile:
@@ -1493,7 +1493,7 @@ class ConfigObj(Section):
             if self.stringify:
                 value = str(value)
             else:
-                raise TypeError, 'Value "%s" is not a string.' % value
+                raise TypeError('Value "%s" is not a string.' % value)
         squot = "'%s'"
         dquot = '"%s"'
         noquot = "%s"
@@ -1510,7 +1510,7 @@ class ConfigObj(Section):
             # for normal values either single or double quotes will do
             elif '\n' in value:
                 # will only happen if multiline is off - e.g. '\n' in key
-                raise ConfigObjError, ('Value "%s" cannot be safely quoted.' %
+                raise ConfigObjError('Value "%s" cannot be safely quoted.' %
                     value)
             elif ((value[0] not in wspace_plus) and
                     (value[-1] not in wspace_plus) and
@@ -1518,7 +1518,7 @@ class ConfigObj(Section):
                 quot = noquot
             else:
                 if ("'" in value) and ('"' in value):
-                    raise ConfigObjError, (
+                    raise ConfigObjError(
                         'Value "%s" cannot be safely quoted.' % value)
                 elif '"' in value:
                     quot = squot
@@ -1527,7 +1527,7 @@ class ConfigObj(Section):
         else:
             # if value has '\n' or "'" *and* '"', it will need triple quotes
             if (value.find('"""') != -1) and (value.find("'''") != -1):
-                raise ConfigObjError, (
+                raise ConfigObjError(
                     'Value "%s" cannot be safely quoted.' % value)
             if value.find('"""') == -1:
                 quot = tdquot
@@ -1725,11 +1725,11 @@ class ConfigObj(Section):
                 raise_errors=True,
                 file_error=True,
                 list_values=False)
-        except ConfigObjError, e:
+        except ConfigObjError as e:
             # FIXME: Should these errors have a reference
             # to the already parsed ConfigObj ?
             raise ConfigspecError('Parsing configspec failed: %s' % e)
-        except IOError, e:
+        except IOError as e:
             raise IOError('Reading configspec failed: %s' % e)
         self._set_configspec_value(configspec, self)
 
@@ -2380,7 +2380,7 @@ class ConfigObj(Section):
         """
         if section is None:
             if self.configspec is None:
-                raise ValueError, 'No configspec supplied.'
+                raise ValueError('No configspec supplied.')
             if preserve_errors:
                 if VdtMissingValue is None:
                     raise ImportError('Missing validate module.')
@@ -2413,7 +2413,7 @@ class ConfigObj(Section):
                                         val,
                                         missing=missing
                                         )
-            except validator.baseErrorClass, e:
+            except validator.baseErrorClass as e:
                 if not preserve_errors or isinstance(e, VdtMissingValue):
                     out[entry] = False
                 else:
