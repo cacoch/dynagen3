@@ -289,7 +289,7 @@ def dottedQuadToNum(ip):
     except socket.error:
         # bug in inet_aton, corrected in Python 2.3
         if ip.strip() == '255.255.255.255':
-            return 0xFFFFFFFFL
+            return 0xFFFFFFFF
         else:
             raise ValueError('Not a good dotted-quad IP: %s' % ip)
     return
@@ -689,7 +689,7 @@ def _is_num_param(names, values, to_float=False):
         elif isinstance(val, (int, long, float, StringTypes)):
             try:
                 out_params.append(fun(val))
-            except ValueError, e:
+            except ValueError as e:
                 raise VdtParamError(name, val)
         else:
             raise VdtParamError(name, val)
@@ -1162,7 +1162,7 @@ def is_mixed_list(value, *args):
         raise VdtValueTooLongError(value)
     try:
         return [fun_dict[arg](val) for arg, val in zip(args, value)]
-    except KeyError, e:
+    except KeyError as e:
         raise VdtParamError('mixed_list', e)
 
 def is_option(value, *options):
