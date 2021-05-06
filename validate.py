@@ -167,7 +167,7 @@ if INTP_VER < (2, 2):
     raise RuntimeError("Python v.2.2 or later needed")
 
 import re
-StringTypes = (str, unicode)
+#StringTypes = (str, unicode)
 
 
 _list_arg = re.compile(r'''
