@@ -1,2 +1,10 @@
 *.bak
 __pycache__/
+*.swp
+*.bin
+bin/
+lib/
+lib64
+pyvenv.cfg
+simple1.net
+
